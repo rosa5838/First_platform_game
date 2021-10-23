@@ -38,3 +38,8 @@ class base:
 
             PG.display.flip()
 
+    # 폰트 적용된 텍스트
+    def Font_text(Tsize):
+        myFont = PG.font.Font("ㅇㅅㅇ\ZenKurenaido-Regular.ttf", Tsize)
+        BLACK = ( 0, 0, 0 )
+        return myFont.render("ESCAPE", True, BLACK)
