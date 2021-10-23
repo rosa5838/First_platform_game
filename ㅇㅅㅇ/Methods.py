@@ -35,11 +35,10 @@ class base:
             for event in PG.event.get():
                 if event.type == PG.QUIT or (event.type == PG.KEYDOWN and event.key == PG.K_F4 and (key[PG.K_LALT] or key[PG.K_RALT])):
                     running = False
-
             PG.display.flip()
 
     # 폰트 적용된 텍스트
-    def Font_text(Tsize):
-        myFont = PG.font.Font("ㅇㅅㅇ\ZenKurenaido-Regular.ttf", Tsize)
+    def Font_text(Contents, Tsize):
+        myFont = PG.font.Font("ㅇㅅㅇ\ka1.ttf", Tsize)
         BLACK = ( 0, 0, 0 )
-        return myFont.render("ESCAPE", True, BLACK)
+        return myFont.render("{}".format(Contents), True, BLACK)
