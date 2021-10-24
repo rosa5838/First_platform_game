@@ -27,14 +27,14 @@ state = False
 
 while running:
     clock.tick(30)
-    
+      
     for event in PG.event.get():
         if event.type == PG.QUIT or (event.type == PG.KEYDOWN and event.key == PG.K_F4 and (key[PG.K_LALT] or key[PG.K_RALT])):
             running = False
 
         if event.type == PG.KEYDOWN:
             state = True
-                
+
     if state == True:
         GrassMap_1.view()
         

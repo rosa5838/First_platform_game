@@ -3,11 +3,16 @@ import Methods as Mtd
 from pygame import key
 import GrassMap_2
 
-Mtd.base.start()
-
 def view():
     running = True
     clock = PG.time.Clock()
+    playerX = 0
+    playerY = 460
+    move_right = False
+    move_left = False
+    move_up = False
+    move_down = False
+    walking_steps = 0
 
     player_images_right = []
     player_images_right.append( PG.image.load('ㅇㅅㅇ\image\Player\p1_walk\PNG\p1_walk01.png') )
@@ -21,15 +26,12 @@ def view():
     player_images_right.append( PG.image.load('ㅇㅅㅇ\image\Player\p1_walk\PNG\p1_walk09.png') )
     player_images_right.append( PG.image.load('ㅇㅅㅇ\image\Player\p1_walk\PNG\p1_walk10.png') )
     player_images_right.append( PG.image.load('ㅇㅅㅇ\image\Player\p1_walk\PNG\p1_walk11.png') )
-    player_current = 0
-
+    player_list_count = 0
     player_images_left = [PG.transform.flip(image, True, False) for image in player_images_right]
 
-    player = player_images_right[player_current]
-    player = player.get_rect()
-
-    playerX = 0
-    playerY = 460
+    PWR = player_images_right[player_list_count]
+    PWR_rect = PWR.get_rect()
+    PWR_rect = PG.Rect.move(PWR_rect, playerX, playerY)
 
     # 화면 변수
     screen = Mtd.base.screen()
@@ -91,23 +93,54 @@ def view():
     (Grass_base, GB_dest9), (Grass_base, GB_dest10), (Grass_base, GB_dest11),
     (Grass_base, GB_dest12), (Grass_base, GB_dest13), (Grass_base, GB_dest14))
     screen.blits(blit_tuple, True)
-   
+
     while running:
         clock.tick(30)
-
         for event in PG.event.get():
             if event.type == PG.QUIT or (event.type == PG.KEYDOWN and event.key == PG.K_F4 and (key[PG.K_LALT] or key[PG.K_RALT])):
                 running = False
-            elif event.type == PG.KEYDOWN:
-                if event.key == PG.K_RIGHT:
-                    return
-                elif event.key == PG.K_LEFT:
-                    return
-            elif event.type == PG.KEYUP:
-                if event.key == PG.K_RIGHT or event.key == PG.K_LEFT:
-                    player.velocity_x = 0
-                    player.state = 0
 
+            if event.type == PG.KEYUP:
+                if event.key == PG.K_ESCAPE:
+                    return
+                elif event.key == PG.K_RIGHT:
+                    move_right = True
+                    move_left = False
+                    walking_steps = 5
+                    if PWR_rect.left < 1050 - PWR_rect.width:
+                        PWR_rect.left += 15
+                    else:
+                        PWR_rect.left = 1050 - PWR_rect.width
+                elif event.key == PG.K_LEFT:
+                    move_left = True
+                    move_right = False
+                    walking_steps = 5
+                    if PWR_rect.left > 0:
+                        PWR_rect.left -= 15
+                    else:
+                        PWR_rect.left = 0
+                    
+        if move_right == True:
+            if walking_steps > 0:
+                player_list_count = (player_list_count + 1) % len(player_images_right)
+                PWR = player_images_right[ player_list_count ]
+                walking_steps -= 1
+            else:
+                move_right = False
+                PWR = player_images_right[0]
+
+        if move_left == True:
+            if walking_steps > 0:
+                player_list_count = (player_list_count + 1) % len(player_images_left)
+                PWR = player_images_left[ player_list_count ]
+                walking_steps -= 1
+            else:
+                move_left = False
+                PWR = player_images_left[0]
+        
+        screen.blits(blit_tuple, True)
+        screen.blit(PWR, PWR_rect)
+        
         PG.display.flip()
-    
-PG.quit()
+
+    PG.quit()
