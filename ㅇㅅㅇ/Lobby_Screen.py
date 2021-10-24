@@ -13,7 +13,7 @@ Main_title_rect = Main_title.get_rect()
 Main_title_rect.centerx = xSize / 2
 Main_title_rect.y = 180
 
-Sub_title = Mtd.base.Font_text("Start by pressing any key", 30)
+Sub_title = Mtd.base.Font_text("Press any key to start", 30)
 Sub_title_rect = Sub_title.get_rect()
 Sub_title_rect.centerx = xSize / 2
 Sub_title_rect.y = 500

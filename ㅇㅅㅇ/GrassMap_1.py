@@ -1,10 +1,36 @@
 import pygame as PG
 import Methods as Mtd
+from pygame import key
 import GrassMap_2
 
 Mtd.base.start()
 
 def view():
+    running = True
+    clock = PG.time.Clock()
+
+    player_images_right = []
+    player_images_right.append( PG.image.load('ㅇㅅㅇ\image\Player\p1_walk\PNG\p1_walk01.png') )
+    player_images_right.append( PG.image.load('ㅇㅅㅇ\image\Player\p1_walk\PNG\p1_walk02.png') )
+    player_images_right.append( PG.image.load('ㅇㅅㅇ\image\Player\p1_walk\PNG\p1_walk03.png') )
+    player_images_right.append( PG.image.load('ㅇㅅㅇ\image\Player\p1_walk\PNG\p1_walk04.png') )
+    player_images_right.append( PG.image.load('ㅇㅅㅇ\image\Player\p1_walk\PNG\p1_walk05.png') )
+    player_images_right.append( PG.image.load('ㅇㅅㅇ\image\Player\p1_walk\PNG\p1_walk06.png') )
+    player_images_right.append( PG.image.load('ㅇㅅㅇ\image\Player\p1_walk\PNG\p1_walk07.png') )
+    player_images_right.append( PG.image.load('ㅇㅅㅇ\image\Player\p1_walk\PNG\p1_walk08.png') )
+    player_images_right.append( PG.image.load('ㅇㅅㅇ\image\Player\p1_walk\PNG\p1_walk09.png') )
+    player_images_right.append( PG.image.load('ㅇㅅㅇ\image\Player\p1_walk\PNG\p1_walk10.png') )
+    player_images_right.append( PG.image.load('ㅇㅅㅇ\image\Player\p1_walk\PNG\p1_walk11.png') )
+    player_current = 0
+
+    player_images_left = [PG.transform.flip(image, True, False) for image in player_images_right]
+
+    player = player_images_right[player_current]
+    player = player.get_rect()
+
+    playerX = 0
+    playerY = 460
+
     # 화면 변수
     screen = Mtd.base.screen()
     Mtd.base.BG_image()
@@ -52,39 +78,36 @@ def view():
     GB_dest13 = PG.Rect.move(GM_dest, 910, 630)
     GB_dest14 = PG.Rect.move(GM_dest, 980, 630)
 
-    screen.blit(Mtd.base.BG_image(), Mtd.base.BG_image().get_rect())
-    screen.blit(Grass_mid, GM_dest0)
-    screen.blit(Grass_mid, GM_dest1)
-    screen.blit(Grass_mid, GM_dest2)
-    screen.blit(Grass_mid, GM_dest3)
-    screen.blit(Grass_mid, GM_dest4)
-    screen.blit(Grass_mid, GM_dest5)
-    screen.blit(Grass_mid, GM_dest6)
-    screen.blit(Grass_mid, GM_dest7)
-    screen.blit(Grass_mid, GM_dest8)
-    screen.blit(Grass_mid, GM_dest9)
-    screen.blit(Grass_mid, GM_dest10)
-    screen.blit(Grass_mid, GM_dest11)
-    screen.blit(Grass_mid, GM_dest12)
-    screen.blit(Grass_mid, GM_dest13)
-    screen.blit(Grass_mid, GM_dest14)
+    
+    blit_tuple = ((Mtd.base.BG_image(), Mtd.base.BG_image().get_rect()),
+    (Grass_mid, GM_dest0), (Grass_mid, GM_dest1), (Grass_mid, GM_dest2),
+    (Grass_mid, GM_dest3), (Grass_mid, GM_dest4), (Grass_mid, GM_dest5),
+    (Grass_mid, GM_dest6), (Grass_mid, GM_dest7), (Grass_mid, GM_dest8),
+    (Grass_mid, GM_dest9), (Grass_mid, GM_dest10), (Grass_mid, GM_dest11),
+    (Grass_mid, GM_dest12), (Grass_mid, GM_dest13), (Grass_mid, GM_dest14),
+    (Grass_base, GB_dest0), (Grass_base, GB_dest1), (Grass_base, GB_dest2),
+    (Grass_base, GB_dest3), (Grass_base, GB_dest4), (Grass_base, GB_dest5),
+    (Grass_base, GB_dest6), (Grass_base, GB_dest7), (Grass_base, GB_dest8),
+    (Grass_base, GB_dest9), (Grass_base, GB_dest10), (Grass_base, GB_dest11),
+    (Grass_base, GB_dest12), (Grass_base, GB_dest13), (Grass_base, GB_dest14))
+    screen.blits(blit_tuple, True)
+   
+    while running:
+        clock.tick(30)
 
-    screen.blit(Grass_base, GB_dest0)
-    screen.blit(Grass_base, GB_dest1)
-    screen.blit(Grass_base, GB_dest2)
-    screen.blit(Grass_base, GB_dest3)
-    screen.blit(Grass_base, GB_dest4)
-    screen.blit(Grass_base, GB_dest5)
-    screen.blit(Grass_base, GB_dest6)
-    screen.blit(Grass_base, GB_dest7)
-    screen.blit(Grass_base, GB_dest8)
-    screen.blit(Grass_base, GB_dest9)
-    screen.blit(Grass_base, GB_dest10)
-    screen.blit(Grass_base, GB_dest11)
-    screen.blit(Grass_base, GB_dest12)
-    screen.blit(Grass_base, GB_dest13)
-    screen.blit(Grass_base, GB_dest14)
+        for event in PG.event.get():
+            if event.type == PG.QUIT or (event.type == PG.KEYDOWN and event.key == PG.K_F4 and (key[PG.K_LALT] or key[PG.K_RALT])):
+                running = False
+            elif event.type == PG.KEYDOWN:
+                if event.key == PG.K_RIGHT:
+                    return
+                elif event.key == PG.K_LEFT:
+                    return
+            elif event.type == PG.KEYUP:
+                if event.key == PG.K_RIGHT or event.key == PG.K_LEFT:
+                    player.velocity_x = 0
+                    player.state = 0
 
-    Mtd.base.loop_fps() 
-
+        PG.display.flip()
+    
 PG.quit()
