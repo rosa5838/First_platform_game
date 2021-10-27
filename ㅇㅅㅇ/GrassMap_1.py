@@ -47,14 +47,44 @@ def view():
     GM_dest = Grass_mid.get_rect()
     GB_dest = Grass_base.get_rect()
 
-    # 타일 1개 당 rect 설정
+    Grass_half_left = PG.image.load("ㅇㅅㅇ\image\Tiles\grassHalfLeft.png")
+    Grass_half_mid = PG.image.load("ㅇㅅㅇ\image\Tiles\grassHalfMid.png")
+    Grass_half_right = PG.image.load("ㅇㅅㅇ\image\Tiles\grassHalfRight.png")
+
+    GHL_dest0 = Grass_half_left.get_rect()
+    GHM_dest0 = Grass_half_mid.get_rect()
+    GHR_dest0 = Grass_half_right.get_rect()
+
+    GHL_dest0 = PG.Rect.move(GHL_dest0, 100, 100)
+    GHM_dest0 = PG.Rect.move(GHM_dest0, 170, 100)
+    GHR_dest0 = PG.Rect.move(GHR_dest0, 240, 100)
+
+    GHL_dest1 = Grass_half_left.get_rect()
+    GHM_dest1 = Grass_half_mid.get_rect()
+    GHR_dest1 = Grass_half_right.get_rect()
+
+    GHL_dest1 = PG.Rect.move(GHL_dest1, 490, 300)
+    GHM_dest1 = PG.Rect.move(GHM_dest1, 560, 300)
+    GHR_dest1 = PG.Rect.move(GHR_dest1, 630, 300)
+
+    GHL_dest2 = Grass_half_left.get_rect()
+    GHM_dest2 = Grass_half_mid.get_rect()
+    GHR_dest2 = Grass_half_right.get_rect()
+
+    GHL_dest2 = PG.Rect.move(GHL_dest2, 770, 200)
+    GHM_dest2 = PG.Rect.move(GHM_dest2, 840, 200)
+    GHR_dest2 = PG.Rect.move(GHR_dest2, 910, 200)
+
+    # 타일 1개 당 rect 설정 (바닥)
     for i in range(15):
         globals()['GM_dest{}'.format(i)] = GM_dest
         globals()['GM_dest{}'.format(i)] = PG.Rect.move(GM_dest, i * 70, 560)
         globals()['GB_dest{}'.format(i)] = GB_dest
         globals()['GB_dest{}'.format(i)] = PG.Rect.move(GB_dest, i * 70, 630)
 
-    # 바닥 타일 출력
+    tile_list = [GHL_dest0, GHM_dest0, GHR_dest0, GHL_dest1, GHM_dest1, GHR_dest1, GHL_dest2, GHM_dest2, GHR_dest2]
+
+    # 타일 출력
     blit_tuple = ((Mtd.base.BG_image(), Mtd.base.BG_image().get_rect()),
     (Grass_mid, GM_dest0), (Grass_mid, GM_dest1), (Grass_mid, GM_dest2),
     (Grass_mid, GM_dest3), (Grass_mid, GM_dest4), (Grass_mid, GM_dest5),
@@ -65,8 +95,15 @@ def view():
     (Grass_base, GB_dest3), (Grass_base, GB_dest4), (Grass_base, GB_dest5),
     (Grass_base, GB_dest6), (Grass_base, GB_dest7), (Grass_base, GB_dest8),
     (Grass_base, GB_dest9), (Grass_base, GB_dest10), (Grass_base, GB_dest11),
-    (Grass_base, GB_dest12), (Grass_base, GB_dest13), (Grass_base, GB_dest14))
+    (Grass_base, GB_dest12), (Grass_base, GB_dest13), (Grass_base, GB_dest14),
+    (Grass_half_left, GHL_dest0), (Grass_half_mid, GHM_dest0), (Grass_half_right, GHR_dest0),
+    (Grass_half_left, GHL_dest1), (Grass_half_mid, GHM_dest1), (Grass_half_right, GHR_dest1),
+    (Grass_half_left, GHL_dest2), (Grass_half_mid, GHM_dest2), (Grass_half_right, GHR_dest2))
     screen.blits(blit_tuple, True)
+
+    # 소리 무한 반복 재생
+    PG.mixer.music.load("ㅇㅅㅇ\music\Field.wav")
+    PG.mixer.music.play(-1, 0, 30)
 
     while running:
         clock.tick(60)
@@ -163,7 +200,7 @@ def view():
                 PWR = player_images_right[player_list_count]
             if event.type == PG.KEYDOWN and keys[PG.K_LEFT]:
                 PWR = player_images_left[player_list_count]
-        
+
         screen.blits(blit_tuple, True)
         screen.blit(PWR, PWR_rect)
         
