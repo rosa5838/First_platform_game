@@ -1,7 +1,7 @@
 import pygame as PG
 from pygame import key
 import Methods as Mtd
-import GrassMap_1
+import Play_game
 
 Mtd.base.start()
 
@@ -36,7 +36,7 @@ while running:
             state = True
 
     if state == True:
-        GrassMap_1.view()
+        Play_game.view()
         
     PG.display.flip()
 
