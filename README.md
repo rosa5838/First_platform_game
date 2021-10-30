@@ -1,3 +1,5 @@
+avoid text game
+
 left move : ←
 
 right move : →
