@@ -1,7 +1,8 @@
+from os import times
 import pygame as PG
 import Methods as Mtd
 from pygame import key
-import GrassMap_2
+import random
 
 def view():
     running = True
@@ -11,9 +12,34 @@ def view():
     move_right = False
     move_left = False
     move_up = False
+    state = True
     walking_steps = 0
     player_list_count = 0
     jump_count = 10
+
+    bigE = Mtd.base.Font_text("E", 150)
+    bigS = Mtd.base.Font_text("S", 150)
+    bigC = Mtd.base.Font_text("C", 150)
+    bigA = Mtd.base.Font_text("A", 150)
+    bigP = Mtd.base.Font_text("P", 150)
+
+    smallE = Mtd.base.Font_text("E", 70)
+    smallS = Mtd.base.Font_text("S", 70)
+    smallC = Mtd.base.Font_text("C", 70)
+    smallA = Mtd.base.Font_text("A", 70)
+    smallP = Mtd.base.Font_text("P", 70)
+
+    big_txt_rect = bigE.get_rect()
+    big_txt_rect.y = -50
+
+    small_txt_rect = smallE.get_rect()
+    small_txt_rect.y = 20
+
+    GTS_small_txt_rect = smallE.get_rect()
+    GTS_small_txt_rect.y = 550 - GTS_small_txt_rect.height
+
+    big_text = [bigE, bigS, bigC, bigA, bigP]
+    small_text = [smallE, smallS, smallC, smallA, smallP]
 
     # player image list 생성
     player_images_right = []
@@ -47,42 +73,12 @@ def view():
     GM_dest = Grass_mid.get_rect()
     GB_dest = Grass_base.get_rect()
 
-    Grass_half_left = PG.image.load("ㅇㅅㅇ\image\Tiles\grassHalfLeft.png")
-    Grass_half_mid = PG.image.load("ㅇㅅㅇ\image\Tiles\grassHalfMid.png")
-    Grass_half_right = PG.image.load("ㅇㅅㅇ\image\Tiles\grassHalfRight.png")
-
-    GHL_dest0 = Grass_half_left.get_rect()
-    GHM_dest0 = Grass_half_mid.get_rect()
-    GHR_dest0 = Grass_half_right.get_rect()
-
-    GHL_dest0 = PG.Rect.move(GHL_dest0, 100, 100)
-    GHM_dest0 = PG.Rect.move(GHM_dest0, 170, 100)
-    GHR_dest0 = PG.Rect.move(GHR_dest0, 240, 100)
-
-    GHL_dest1 = Grass_half_left.get_rect()
-    GHM_dest1 = Grass_half_mid.get_rect()
-    GHR_dest1 = Grass_half_right.get_rect()
-
-    GHL_dest1 = PG.Rect.move(GHL_dest1, 490, 300)
-    GHM_dest1 = PG.Rect.move(GHM_dest1, 560, 300)
-    GHR_dest1 = PG.Rect.move(GHR_dest1, 630, 300)
-
-    GHL_dest2 = Grass_half_left.get_rect()
-    GHM_dest2 = Grass_half_mid.get_rect()
-    GHR_dest2 = Grass_half_right.get_rect()
-
-    GHL_dest2 = PG.Rect.move(GHL_dest2, 770, 200)
-    GHM_dest2 = PG.Rect.move(GHM_dest2, 840, 200)
-    GHR_dest2 = PG.Rect.move(GHR_dest2, 910, 200)
-
     # 타일 1개 당 rect 설정 (바닥)
     for i in range(15):
         globals()['GM_dest{}'.format(i)] = GM_dest
         globals()['GM_dest{}'.format(i)] = PG.Rect.move(GM_dest, i * 70, 560)
         globals()['GB_dest{}'.format(i)] = GB_dest
         globals()['GB_dest{}'.format(i)] = PG.Rect.move(GB_dest, i * 70, 630)
-
-    tile_list = [GHL_dest0, GHM_dest0, GHR_dest0, GHL_dest1, GHM_dest1, GHR_dest1, GHL_dest2, GHM_dest2, GHR_dest2]
 
     # 타일 출력
     blit_tuple = ((Mtd.base.BG_image(), Mtd.base.BG_image().get_rect()),
@@ -95,18 +91,29 @@ def view():
     (Grass_base, GB_dest3), (Grass_base, GB_dest4), (Grass_base, GB_dest5),
     (Grass_base, GB_dest6), (Grass_base, GB_dest7), (Grass_base, GB_dest8),
     (Grass_base, GB_dest9), (Grass_base, GB_dest10), (Grass_base, GB_dest11),
-    (Grass_base, GB_dest12), (Grass_base, GB_dest13), (Grass_base, GB_dest14),
-    (Grass_half_left, GHL_dest0), (Grass_half_mid, GHM_dest0), (Grass_half_right, GHR_dest0),
-    (Grass_half_left, GHL_dest1), (Grass_half_mid, GHM_dest1), (Grass_half_right, GHR_dest1),
-    (Grass_half_left, GHL_dest2), (Grass_half_mid, GHM_dest2), (Grass_half_right, GHR_dest2))
+    (Grass_base, GB_dest12), (Grass_base, GB_dest13), (Grass_base, GB_dest14))
     screen.blits(blit_tuple, True)
 
     # 소리 무한 반복 재생
     PG.mixer.music.load("ㅇㅅㅇ\music\Field.wav")
     PG.mixer.music.play(-1, 0, 30)
+    big_falling_cnt = 0
+    small_falling_cnt = 0
+    small_GTS_cnt = 0
+
+    falling_big_text = random.choice(big_text)
+    falling_small_text = random.choice(small_text)
+    GTS_small_text = random.choice(small_text)
+
+    big_txt_rect.x = random.randrange(0, 1050 - big_txt_rect.width)
+    small_txt_rect.x = random.randrange(0, 1050 - small_txt_rect.width)
+    GTS_small_txt_rect.x = 1050 + GTS_small_txt_rect.width
+
+    time_score = 0
 
     while running:
         clock.tick(60)
+        time_score += 1
         # 게임 종료 이벤트
         for event in PG.event.get():
             if event.type == PG.QUIT or (event.type == PG.KEYDOWN and event.key == PG.K_F4 and (key[PG.K_LALT] or key[PG.K_RALT])):
@@ -115,95 +122,149 @@ def view():
         # keys 변수로 방향 이벤트 받고 처리 
         keys = PG.key.get_pressed()
 
-        if keys[PG.K_RIGHT]:
-            move_right = True
-            move_left = False
-            walking_steps = 5
-            if PWR_rect.left < 1050 - PWR_rect.width:
-                PWR_rect.left += walking_steps
-            else:
-                PWR_rect.left = 1050 - PWR_rect.width
-
-        if keys[PG.K_LEFT]:
-            move_left = True
-            move_right = False
-            walking_steps = 5
-            if PWR_rect.left > 0:
-                PWR_rect.left -= walking_steps
-            else:
-                PWR_rect.left = 0
-
-        if not move_up:
-            if keys[PG.K_SPACE]:
-                move_up = True
+        if state:
+            if keys[PG.K_RIGHT]:
+                move_right = True
                 move_left = False
+                walking_steps = 10
+                if PWR_rect.left < 1050 - PWR_rect.width:
+                    PWR_rect.left += walking_steps
+                else:
+                    PWR_rect.left = 1050 - PWR_rect.width
+
+            if keys[PG.K_LEFT]:
+                move_left = True
                 move_right = False
-                player_list_count = 1
+                walking_steps = 10
+                if PWR_rect.left > 0:
+                    PWR_rect.left -= walking_steps
+                else:
+                    PWR_rect.left = 0
+
+            if not move_up:
+                if keys[PG.K_SPACE]:
+                    move_up = True
+                    move_left = False
+                    move_right = False
+                    player_list_count = 1
+                    if event.type == PG.KEYDOWN and keys[PG.K_RIGHT]:
+                        PWR = player_images_right[player_list_count]
+                    if event.type == PG.KEYDOWN and keys[PG.K_LEFT]:
+                        PWR = player_images_left[player_list_count]
+                    walking_steps = 0
+            else:
+                if jump_count >= -10:
+                    PWR_rect.y -= (jump_count * abs(jump_count)) * 0.5
+                    jump_count -= 1
+                else:
+                    move_up = False
+                    jump_count = 10
+                    PWR_rect.y = playerY
+
+            # 방향에 따라 image list 선택 후 프레임에 따라 image 바꿈
+            if move_right == True:
+                if walking_steps > 0:
+                    player_list_count = (player_list_count + 1) % len(player_images_right)
+                    if player_list_count == 0 or player_list_count == 1:
+                        while True:
+                            player_list_count += 1
+                            if player_list_count >= 2:
+                                break
+                    if move_up == True:
+                        player_list_count = 1
+                    else: 
+                        pass
+                    PWR = player_images_right[player_list_count]
+                    walking_steps -= 1
+                else:
+                    move_right = False
+                    player_list_count = 0
+                    PWR = player_images_right[player_list_count]
+
+            elif move_left == True:
+                if walking_steps > 0:
+                    player_list_count = (player_list_count + 1) % len(player_images_left)
+                    if player_list_count == 0 or player_list_count == 1:
+                        while True:
+                            player_list_count += 1
+                            if player_list_count >= 2:
+                                break
+                    if move_up == True:
+                        
+                        player_list_count = 1
+                    else: 
+                        pass
+                    PWR = player_images_left[player_list_count]
+                    walking_steps -= 1
+                else:
+                    move_left = False
+                    player_list_count = 0
+                    PWR = player_images_left[player_list_count]
+            
+            # 마지막 이벤트에 따라 list를 바꿔서 stand 모습을 유지
+            else:
                 if event.type == PG.KEYDOWN and keys[PG.K_RIGHT]:
                     PWR = player_images_right[player_list_count]
                 if event.type == PG.KEYDOWN and keys[PG.K_LEFT]:
                     PWR = player_images_left[player_list_count]
-                walking_steps = 0
-        else:
-            if jump_count >= -10:
-                PWR_rect.y -= (jump_count * abs(jump_count)) * 0.5
-                jump_count -= 1
-            else:
-                move_up = False
-                jump_count = 10
-                PWR_rect.y = playerY
 
-        # 방향에 따라 image list 선택 후 프레임에 따라 image 바꿈
-        if move_right == True:
-            if walking_steps > 0:
-                player_list_count = (player_list_count + 1) % len(player_images_right)
-                if player_list_count == 0 or player_list_count == 1:
-                    while True:
-                        player_list_count += 1
-                        if player_list_count >= 2:
-                            break
-                if move_up == True:
-                    PG.time.delay(5)
-                    player_list_count = 1
-                else: 
-                    PG.time.delay(20)
-                PWR = player_images_right[player_list_count]
-                walking_steps -= 1
-            else:
-                move_right = False
-                player_list_count = 0
-                PWR = player_images_right[player_list_count]
+            if big_falling_cnt == 0:
+                big_txt_rect.y += 10
+                if big_txt_rect.y > 700:
+                    big_txt_rect.y = -30
+                    falling_big_text = random.choice(big_text)
+                    big_txt_rect.x = random.randrange(0, 1050 - big_txt_rect.width)
 
-        elif move_left == True:
-            if walking_steps > 0:
-                player_list_count = (player_list_count + 1) % len(player_images_left)
-                if player_list_count == 0 or player_list_count == 1:
-                    while True:
-                        player_list_count += 1
-                        if player_list_count >= 2:
-                            break
-                if move_up == True:
-                    PG.time.delay(5)
-                    player_list_count = 1
-                else: 
-                    PG.time.delay(20)
-                PWR = player_images_left[player_list_count]
-                walking_steps -= 1
-            else:
-                move_left = False
-                player_list_count = 0
-                PWR = player_images_left[player_list_count]
-        
-        # 마지막 이벤트에 따라 list를 바꿔서 stand 모습을 유지
-        else:
-            if event.type == PG.KEYDOWN and keys[PG.K_RIGHT]:
-                PWR = player_images_right[player_list_count]
-            if event.type == PG.KEYDOWN and keys[PG.K_LEFT]:
-                PWR = player_images_left[player_list_count]
+            if small_falling_cnt == 0:
+                small_txt_rect.y += 15
+                if small_txt_rect.y > 700:
+                    small_txt_rect.y = -30
+                    falling_small_text = random.choice(small_text)
+                    small_txt_rect.x = random.randrange(0, 1050 - small_txt_rect.width)
 
-        screen.blits(blit_tuple, True)
-        screen.blit(PWR, PWR_rect)
-        
+            if small_GTS_cnt == 0:
+                GTS_small_txt_rect.x -= 10
+                if GTS_small_txt_rect.x < 0:
+                    GTS_small_text = random.choice(small_text)
+                    GTS_small_txt_rect.x = 1050 + GTS_small_txt_rect.width
+
+            screen.blits(blit_tuple, True)
+            screen.blit(PWR, PWR_rect)
+            screen.blit(falling_big_text, big_txt_rect)
+            screen.blit(falling_small_text, small_txt_rect)
+            screen.blit(GTS_small_text, GTS_small_txt_rect)
+
+            if PWR_rect.colliderect(big_txt_rect) or PWR_rect.colliderect(small_txt_rect) or PWR_rect.colliderect(GTS_small_txt_rect):
+                score = Mtd.base.Font_text("score   " + str(time_score), 50)
+                score_rect = score.get_rect()
+                score_rect.centerx = 1050 / 2
+                score_rect.y = 180
+
+                again = Mtd.base.Font_text("Try Again Press G", 30)
+                again_rect = again.get_rect()
+                again_rect.centerx = 1050 / 2
+                again_rect.y = 300
+
+                screen.blits(blit_tuple, True)
+                screen.blit(score, score_rect)
+                screen.blit(again, again_rect)
+                state = False
+                PG.mixer.music.pause()
+
+        if not state:    
+            if keys[PG.K_g]:
+                state = True
+                time_score = 0
+                PWR_rect.x = 0
+                PWR_rect.y = 463
+                big_txt_rect.x = random.randrange(0, 1050 - big_txt_rect.width)
+                big_txt_rect.y = -50
+                small_txt_rect.x = random.randrange(0, 1050 - small_txt_rect.width)
+                small_txt_rect.y = 20
+                GTS_small_txt_rect.x = 1050 + GTS_small_txt_rect.width
+                PG.mixer.music.rewind()
+                PG.mixer.music.unpause()
+
         PG.display.update()
-
+    
     PG.quit()
