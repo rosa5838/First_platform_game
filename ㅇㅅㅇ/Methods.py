@@ -1,5 +1,4 @@
 import pygame as PG
-from pygame import key
 
 xSize = 1050
 ySize = 700
@@ -16,7 +15,7 @@ class base:
 
     # 바탕화면 반환
     def BG_image():
-        background_image = PG.image.load("ㅇㅅㅇ\image\map\BG.png")
+        background_image = PG.image.load("image\map\BG.png")
         background_image = PG.transform.scale(background_image, (xSize, ySize))
         return background_image
 
@@ -27,6 +26,6 @@ class base:
 
     # 폰트 적용된 텍스트
     def Font_text(Contents, Tsize):
-        myFont = PG.font.Font("ㅇㅅㅇ\ka1.ttf", Tsize)
+        myFont = PG.font.Font("ka1.ttf", Tsize)
         BLACK = ( 0, 0, 0 )
         return myFont.render("{}".format(Contents), True, BLACK)

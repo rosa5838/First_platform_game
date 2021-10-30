@@ -1,3 +1,4 @@
+import sys
 import pygame as PG
 import Methods as Mtd
 from pygame import key
@@ -42,19 +43,19 @@ def view():
 
     # player image list 생성
     player_images_right = []
-    player_images_right.append( PG.image.load('ㅇㅅㅇ\image\Player\p1_stand.png') )
-    player_images_right.append( PG.image.load('ㅇㅅㅇ\image\Player\p1_jump.png') )
-    player_images_right.append( PG.image.load('ㅇㅅㅇ\image\Player\p1_walk\PNG\p1_walk01.png') )
-    player_images_right.append( PG.image.load('ㅇㅅㅇ\image\Player\p1_walk\PNG\p1_walk02.png') )
-    player_images_right.append( PG.image.load('ㅇㅅㅇ\image\Player\p1_walk\PNG\p1_walk03.png') )
-    player_images_right.append( PG.image.load('ㅇㅅㅇ\image\Player\p1_walk\PNG\p1_walk04.png') )
-    player_images_right.append( PG.image.load('ㅇㅅㅇ\image\Player\p1_walk\PNG\p1_walk05.png') )
-    player_images_right.append( PG.image.load('ㅇㅅㅇ\image\Player\p1_walk\PNG\p1_walk06.png') )
-    player_images_right.append( PG.image.load('ㅇㅅㅇ\image\Player\p1_walk\PNG\p1_walk07.png') )
-    player_images_right.append( PG.image.load('ㅇㅅㅇ\image\Player\p1_walk\PNG\p1_walk08.png') )
-    player_images_right.append( PG.image.load('ㅇㅅㅇ\image\Player\p1_walk\PNG\p1_walk09.png') )
-    player_images_right.append( PG.image.load('ㅇㅅㅇ\image\Player\p1_walk\PNG\p1_walk10.png') )
-    player_images_right.append( PG.image.load('ㅇㅅㅇ\image\Player\p1_walk\PNG\p1_walk11.png') )
+    player_images_right.append( PG.image.load('image\Player\p1_stand.png') )
+    player_images_right.append( PG.image.load('image\Player\p1_jump.png') )
+    player_images_right.append( PG.image.load('image\Player\p1_walk\PNG\p1_walk01.png') )
+    player_images_right.append( PG.image.load('image\Player\p1_walk\PNG\p1_walk02.png') )
+    player_images_right.append( PG.image.load('image\Player\p1_walk\PNG\p1_walk03.png') )
+    player_images_right.append( PG.image.load('image\Player\p1_walk\PNG\p1_walk04.png') )
+    player_images_right.append( PG.image.load('image\Player\p1_walk\PNG\p1_walk05.png') )
+    player_images_right.append( PG.image.load('image\Player\p1_walk\PNG\p1_walk06.png') )
+    player_images_right.append( PG.image.load('image\Player\p1_walk\PNG\p1_walk07.png') )
+    player_images_right.append( PG.image.load('image\Player\p1_walk\PNG\p1_walk08.png') )
+    player_images_right.append( PG.image.load('image\Player\p1_walk\PNG\p1_walk09.png') )
+    player_images_right.append( PG.image.load('image\Player\p1_walk\PNG\p1_walk10.png') )
+    player_images_right.append( PG.image.load('image\Player\p1_walk\PNG\p1_walk11.png') )
     
     player_images_left = [PG.transform.flip(image, True, False) for image in player_images_right]
     PWR = player_images_right[player_list_count]
@@ -66,8 +67,8 @@ def view():
     Mtd.base.BG_image()
     
     # 타일 변수
-    Grass_mid = PG.image.load("ㅇㅅㅇ\image\Tiles\grassMid.png")
-    Grass_base = PG.image.load("ㅇㅅㅇ\image\Tiles\grassCenter.png")
+    Grass_mid = PG.image.load("image\Tiles\grassMid.png")
+    Grass_base = PG.image.load("image\Tiles\grassCenter.png")
 
     GM_dest = Grass_mid.get_rect()
     GB_dest = Grass_base.get_rect()
@@ -94,7 +95,7 @@ def view():
     screen.blits(blit_tuple, True)
 
     # 소리 무한 반복 재생
-    PG.mixer.music.load("ㅇㅅㅇ\music\Field.mp3")
+    PG.mixer.music.load("music\Field.mp3")
     PG.mixer.music.play(-1, 0, 30)
     big_falling_cnt = 0
     small_falling_cnt = 0
@@ -267,3 +268,4 @@ def view():
         PG.display.update()
     
     PG.quit()
+    sys.exit(0)

@@ -1,4 +1,5 @@
 import pygame as PG
+import sys
 from pygame import key
 import Methods as Mtd
 import Play_game
@@ -41,3 +42,4 @@ while running:
     PG.display.flip()
 
 PG.quit()
+sys.exit(0)
