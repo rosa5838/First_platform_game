@@ -25,18 +25,6 @@ class base:
         PG.init()
         PG.display.set_caption("escape!")
 
-    # 화면 출력 및 종료 이벤트
-    def loop_fps():
-        running = True
-        
-        while running:
-            clock.tick(30)
-            
-            for event in PG.event.get():
-                if event.type == PG.QUIT or (event.type == PG.KEYDOWN and event.key == PG.K_F4 and (key[PG.K_LALT] or key[PG.K_RALT])):
-                    running = False
-            PG.display.flip()
-
     # 폰트 적용된 텍스트
     def Font_text(Contents, Tsize):
         myFont = PG.font.Font("ㅇㅅㅇ\ka1.ttf", Tsize)
