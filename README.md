@@ -1,2 +1,3 @@
-# first_platform_game
-first game
+left move : ←
+right move : →
+space bar : jump
