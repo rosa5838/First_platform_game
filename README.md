@@ -1,7 +1,7 @@
-#Avoid Text Game
+# Avoid Text Game
 
-###left move : ←
+### left move : ←
 
-###right move : →
+### right move : →
 
-###jump : space bar
+### jump : space bar
