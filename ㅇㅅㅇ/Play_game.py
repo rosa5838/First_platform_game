@@ -38,6 +38,9 @@ def view():
     GTS_small_txt_rect = smallE.get_rect()
     GTS_small_txt_rect.y = 550 - GTS_small_txt_rect.height
 
+    ADL_small_txt_rext = smallE.get_rect()
+    ADL_small_txt_rext.y = -50
+
     big_text = [bigE, bigS, bigC, bigA, bigP]
     small_text = [smallE, smallS, smallC, smallA, smallP]
 
@@ -100,14 +103,17 @@ def view():
     big_falling_cnt = 0
     small_falling_cnt = 0
     small_GTS_cnt = 0
+    small_ADL_cnt = 0
 
     falling_big_text = random.choice(big_text)
     falling_small_text = random.choice(small_text)
     GTS_small_text = random.choice(small_text)
+    ADL_small_text = random.choice(small_text)
 
     big_txt_rect.x = random.randrange(0, 1050 - big_txt_rect.width)
     small_txt_rect.x = random.randrange(0, 1050 - small_txt_rect.width)
     GTS_small_txt_rect.x = 1050 + GTS_small_txt_rect.width
+    ADL_small_txt_rext.x = 1050 + ADL_small_txt_rext.width
 
     time_score = 0
 
@@ -154,6 +160,8 @@ def view():
                     walking_steps = 0
             else:
                 if jump_count >= -10:
+                    if keys[PG.K_DOWN]:
+                        jump_count = -11
                     PWR_rect.y -= (jump_count * abs(jump_count)) * 0.5
                     jump_count -= 1
                 else:
@@ -227,14 +235,23 @@ def view():
                 if GTS_small_txt_rect.x < 0:
                     GTS_small_text = random.choice(small_text)
                     GTS_small_txt_rect.x = 1050 + GTS_small_txt_rect.width
+            
+            if small_ADL_cnt == 0:
+                ADL_small_txt_rext.x -= 12
+                ADL_small_txt_rext.y += 6
+                if ADL_small_txt_rext.x < 0 and ADL_small_txt_rext.y > 0:
+                    ADL_small_text = random.choice(small_text)
+                    ADL_small_txt_rext.x = 1050 + ADL_small_txt_rext.width
+                    ADL_small_txt_rext.y = 0 - ADL_small_txt_rext.height
 
             screen.blits(blit_tuple, True)
             screen.blit(PWR, PWR_rect)
             screen.blit(falling_big_text, big_txt_rect)
             screen.blit(falling_small_text, small_txt_rect)
             screen.blit(GTS_small_text, GTS_small_txt_rect)
+            screen.blit(ADL_small_text, ADL_small_txt_rext)
 
-            if PWR_rect.colliderect(big_txt_rect) or PWR_rect.colliderect(small_txt_rect) or PWR_rect.colliderect(GTS_small_txt_rect):
+            if PWR_rect.colliderect(big_txt_rect) or PWR_rect.colliderect(small_txt_rect) or PWR_rect.colliderect(GTS_small_txt_rect) or PWR_rect.colliderect(ADL_small_txt_rext):
                 score = Mtd.base.Font_text("score   " + str(time_score), 50)
                 score_rect = score.get_rect()
                 score_rect.centerx = 1050 / 2
@@ -262,6 +279,8 @@ def view():
                 small_txt_rect.x = random.randrange(0, 1050 - small_txt_rect.width)
                 small_txt_rect.y = 20
                 GTS_small_txt_rect.x = 1050 + GTS_small_txt_rect.width
+                ADL_small_txt_rext.x = 1050 + ADL_small_txt_rext.width
+                ADL_small_txt_rext.y = 0 - ADL_small_txt_rext.height
                 PG.mixer.music.rewind()
                 PG.mixer.music.unpause()
 
