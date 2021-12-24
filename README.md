@@ -5,3 +5,5 @@
 ### right move : →
 
 ### jump : space bar
+
+### down : ↓
